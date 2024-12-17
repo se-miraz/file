@@ -277,7 +277,7 @@ downloadButton.addEventListener("click", async () => {
       const fileRef = storageRef.child(fullPath);
       const url = await fileRef.getDownloadURL();
       const link = document.createElement("a");
-      link.href = url;
+      link.href = URL.createObjectURL(blob); // link.href = url;
       link.download = encodeURIComponent(fullPath);  // 수정: 파일 이름을 안전하게 인코딩
       link.style.display = "none";
       document.body.appendChild(link);
