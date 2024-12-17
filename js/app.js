@@ -275,35 +275,6 @@ downloadButton.addEventListener("click", async () => {
     } else {
       const fullPath = Array.from(selectedFilesToDownload)[0];
       const fileRef = storageRef.child(fullPath);
-      try {
-        const url = await fileRef.getDownloadURL();
-        const response = await fetch(url);
-        const blob = await response.blob();
-        
-        // 파일 이름 추출
-        const fileName = fullPath.split('/').pop();
-        
-        // Blob URL 생성 및 다운로드
-        const blobUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.setAttribute('download', fileName);  // download 속성을 명시적으로 설정
-        document.body.appendChild(link);
-        link.click();
-        
-        // 정리
-        setTimeout(() => {  // 다운로드 시작을 보장하기 위한 지연
-          URL.revokeObjectURL(blobUrl);
-          document.body.removeChild(link);
-        }, 100);
-
-      } catch (error) {
-        console.error("다운로드 중 오류 발생:", error);
-        alert("파일 다운로드 중 오류가 발생했습니다.");
-      }
-/*      
-      const fullPath = Array.from(selectedFilesToDownload)[0];
-      const fileRef = storageRef.child(fullPath);
       const url = await fileRef.getDownloadURL();
       const link = document.createElement("a");
       link.href = url;
@@ -312,7 +283,6 @@ downloadButton.addEventListener("click", async () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-*/
     }
   } else {
     alert("다운로드할 파일을 선택해주세요.");
