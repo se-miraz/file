@@ -273,23 +273,34 @@ downloadButton.addEventListener("click", async () => {
       zipLink.click();
       document.body.removeChild(zipLink);
     } else {
-    const fullPath = Array.from(selectedFilesToDownload)[0];
-    const fileRef = storageRef.child(fullPath);
-    const url = await fileRef.getDownloadURL();
-    
-    // 파일을 직접 다운로드하도록 수정
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);  // Blob URL 생성
-    link.download = fullPath.split('/').pop();  // 파일명만 추출
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    
-    // 메모리 정리
-    URL.revokeObjectURL(link.href);
-    document.body.removeChild(link);
+      const fullPath = Array.from(selectedFilesToDownload)[0];
+      const fileRef = storageRef.child(fullPath);
+      try {
+        const url = await fileRef.getDownloadURL();
+        const response = await fetch(url);
+        const blob = await response.blob();
+        
+        // 파일 이름 추출
+        const fileName = fullPath.split('/').pop();
+        
+        // Blob URL 생성 및 다운로드
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.setAttribute('download', fileName);  // download 속성을 명시적으로 설정
+        document.body.appendChild(link);
+        link.click();
+        
+        // 정리
+        setTimeout(() => {  // 다운로드 시작을 보장하기 위한 지연
+          URL.revokeObjectURL(blobUrl);
+          document.body.removeChild(link);
+        }, 100);
+
+      } catch (error) {
+        console.error("다운로드 중 오류 발생:", error);
+        alert("파일 다운로드 중 오류가 발생했습니다.");
+      }
 /*      
       const fullPath = Array.from(selectedFilesToDownload)[0];
       const fileRef = storageRef.child(fullPath);
