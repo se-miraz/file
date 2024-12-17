@@ -273,6 +273,24 @@ downloadButton.addEventListener("click", async () => {
       zipLink.click();
       document.body.removeChild(zipLink);
     } else {
+    const fullPath = Array.from(selectedFilesToDownload)[0];
+    const fileRef = storageRef.child(fullPath);
+    const url = await fileRef.getDownloadURL();
+    
+    // 파일을 직접 다운로드하도록 수정
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);  // Blob URL 생성
+    link.download = fullPath.split('/').pop();  // 파일명만 추출
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    
+    // 메모리 정리
+    URL.revokeObjectURL(link.href);
+    document.body.removeChild(link);
+/*      
       const fullPath = Array.from(selectedFilesToDownload)[0];
       const fileRef = storageRef.child(fullPath);
       const url = await fileRef.getDownloadURL();
@@ -283,6 +301,7 @@ downloadButton.addEventListener("click", async () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+*/
     }
   } else {
     alert("다운로드할 파일을 선택해주세요.");
