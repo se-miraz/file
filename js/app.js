@@ -247,6 +247,7 @@ deleteButton.addEventListener('click', deleteFiles);
 
 
 // 파일 다운로드 버튼 클릭 이벤트
+/*
 downloadButton.addEventListener("click", async () => {
   if (selectedFilesToDownload.size > 0) {
     if (selectedFilesToDownload.size > 1) {
@@ -289,6 +290,77 @@ downloadButton.addEventListener("click", async () => {
   }
 });
 
+*/
+downloadButton.addEventListener("click", async () => {
+  if (selectedFilesToDownload.size > 0) {
+    try {
+      downloadProgress.style.display = 'block'; // 진행바 표시
+      downloadProgress.value = 0;
 
+      if (selectedFilesToDownload.size > 1) {
+        const zip = new JSZip();
+        let completed = 0;
+
+        const downloadPromises = Array.from(selectedFilesToDownload).map(
+          async (fullPath) => {
+            try {
+              const fileRef = storageRef.child(fullPath);
+              const url = await fileRef.getDownloadURL();
+              const response = await fetch(url);
+              if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+              const blob = await response.blob();
+              
+              // 파일명에서 경로 제거
+              const fileName = fullPath.split('/').pop();
+              zip.file(fileName, blob, { binary: true });
+              
+              // 진행률 업데이트
+              completed++;
+              downloadProgress.value = (completed / selectedFilesToDownload.size) * 100;
+            } catch (error) {
+              console.error(`파일 다운로드 중 오류 발생: ${fullPath}`, error);
+            }
+          }
+        );
+
+        await Promise.all(downloadPromises);
+
+        const zipBlob = await zip.generateAsync({ 
+          type: "blob",
+          compression: "DEFLATE",
+          compressionOptions: { level: 6 }
+        });
+
+        const zipLink = document.createElement("a");
+        zipLink.href = URL.createObjectURL(zipBlob);
+        zipLink.download = `downloaded_files_${new Date().getTime()}.zip`;
+        document.body.appendChild(zipLink);
+        zipLink.click();
+        URL.revokeObjectURL(zipLink.href);
+        document.body.removeChild(zipLink);
+      } else {
+        // 단일 파일 다운로드
+        const fullPath = Array.from(selectedFilesToDownload)[0];
+        const fileRef = storageRef.child(fullPath);
+        const url = await fileRef.getDownloadURL();
+        const fileName = fullPath.split('/').pop();
+        
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error('다운로드 중 오류 발생:', error);
+      alert('다운로드 중 오류가 발생했습니다.');
+    } finally {
+      downloadProgress.style.display = 'none';
+    }
+  } else {
+    alert("다운로드할 파일을 선택해주세요.");
+  }
+});
 
 listFiles();
