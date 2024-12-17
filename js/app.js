@@ -258,7 +258,7 @@ downloadButton.addEventListener("click", async () => {
           const url = await fileRef.getDownloadURL();
           const response = await fetch(url);
           const blob = await response.blob();
-          zip.file(fullPath, blob, { binary: true });
+          zip.file(fullPath.split('/').pop(), blob, { binary: true }); //zip.file(fullPath, blob, { binary: true });
         }
       );
 
@@ -278,7 +278,7 @@ downloadButton.addEventListener("click", async () => {
       const url = await fileRef.getDownloadURL();
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob); // link.href = url;
-      link.download = encodeURIComponent(fullPath);  // 수정: 파일 이름을 안전하게 인코딩
+      link.download = fullPath.split('/').pop(); // link.download = encodeURIComponent(fullPath);  // 수정: 파일 이름을 안전하게 인코딩
       link.style.display = "none";
       document.body.appendChild(link);
       link.click();
