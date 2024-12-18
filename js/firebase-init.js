@@ -1,5 +1,4 @@
 // firebase-init.js
-// firebase-init.js
 const firebaseConfig = {
   apiKey: "AIzaSyBkTJzSymd5o7hOGFjtQjRzA8BWY09jX3A",
   authDomain: "file-63e65.firebaseapp.com",
@@ -12,6 +11,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// 전역 변수로 Firestore 인스턴스 생성
-window.db = firebase.firestore();
+const db = firebase.firestore();
+const storage = firebase.storage();
 
+export { db, storage };
