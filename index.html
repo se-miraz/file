@@ -12,17 +12,30 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <title>파일이동 및 메모 앱</title>
   <style>
-    .body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+  .body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .file-section {
+    flex: 2;
+    margin-right: 20px;
+  }
+  .memo-section {
+    flex: 1;
+  }
+  .uploading-file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   </style>
 </head>
 <body>
