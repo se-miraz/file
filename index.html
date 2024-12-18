@@ -9,27 +9,48 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>파일이동 간소화</title>
+  <title>파일이동 및 메모 간소화</title>
+  <style>
+    .container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .file-section, .memo-section {
+      width: 48%;
+    }
+  </style>
 </head>
 <body>
-<body>
-  <button class="move-to-memo-btn" onclick="location.href='memo.html'">메모로 이동</button>
-  <div><center><h2>파일이동 시간장치?!!<h2></center></div>
-  <div id="uploadArea" class="upload-area">
-    <h3>여기를 클릭하거나, 파일을 드래그 앤 드롭하세요.</h3>
-    <input type="file" id="fileInput" style="display:none;">
-    <p id="fileName"></p>
+  <div><center><h2>파일이동 시간장치 & 메모<h2></center></div>
+  
+  <div class="container">
+    <div class="file-section">
+      <h3>파일 이동</h3>
+      <div id="uploadArea" class="upload-area">
+        <h3>여기를 클릭하거나, 파일을 드래그 앤 드롭하세요.</h3>
+        <input type="file" id="fileInput" style="display:none;">
+        <p id="fileName"></p>
+      </div>
+      <button id="uploadButton">업로드</button>
+      <div class="uploading-file-name" id="uploadingFileName"></div>
+      <progress id="uploadProgress" value="0" max="100" style="width: 100%; display:none;"></progress>
+
+      <h3>다운로드할 파일 선택:</h3>
+      <button id="selectAllButton" class="select-all-button">전체 선택</button>
+      <button id="downloadButton" disabled>다운로드</button>
+      <button id="deleteButton" class="delete-button">삭제</button>
+      <ul id="fileListUl"></ul>
+    </div>
+
+    <div class="memo-section">
+      <h3>메모</h3>
+      <!-- 여기에 메모 기능 관련 HTML 요소를 추가하세요 -->
+      <textarea id="memoText" rows="10" cols="50" placeholder="메모를 입력하세요..."></textarea>
+      <br>
+      <button id="saveMemoButton">메모 저장</button>
+      <ul id="memoList"></ul>
+    </div>
   </div>
-  <button id="uploadButton">업로드</button>
-  <div class="uploading-file-name" id="uploadingFileName"></div>
-  <progress id="uploadProgress" value="0" max="100" style="width: 100%; display:none;"></progress>
-
-  <h3>다운로드할 파일 선택:</h3>
-  <button id="selectAllButton" class="select-all-button">전체 선택</button>
-  <button id="downloadButton" disabled>다운로드</button>
-  <button id="deleteButton" class="delete-button">삭제</button>
-    <ul id="fileListUl"></ul>
-
 
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
