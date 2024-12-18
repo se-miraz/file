@@ -1,5 +1,7 @@
+// app.js
+import { storage } from './firebase-init.js';
+
 document.addEventListener('DOMContentLoaded', function() {
-  const storage = firebase.storage();
   const storageRef = storage.ref();
 
   // 파일 다운로드 게이지
@@ -13,12 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const uploadProgress = document.getElementById('uploadProgress');
   const deleteButton = document.getElementById('deleteButton');
   const selectAllButton = document.getElementById('selectAllButton');
+  const uploadingFileName = document.getElementById('uploadingFileName');
 
   let selectAll = false;
   let filesToUpload = [];
   let selectedFilesToDownload = new Set();
-  let selectedFile = null;
-  let selectedFilename = null;
 
   uploadButton.disabled = true;
   deleteButton.disabled = true;
@@ -83,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     const uploadTask = fileRef.put(file, metadata);
 
-    // 업로드 중인 파일 이름 표시
     uploadingFileName.textContent = `업로드 중인 파일: ${file.name}`;
     uploadProgress.style.display = 'block';
 
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
       uploadTask.on('state_changed', (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         uploadProgress.value = progress;
-
       }, (error) => {
         console.error('업로드 중 오류:', error);
         uploadProgress.style.display = 'none';
