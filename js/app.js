@@ -8,18 +8,6 @@ const firebaseConfig = {
   measurementId: "G-9XE2RR3B1G"
 };
 
-/*
-const firebaseConfig = {
-  apiKey: "AIzaSyD9phX0Uv6Irirno_u4AVlTQKZRBlmRweI",
-  authDomain: "updown-a07aa.firebaseapp.com",
-  projectId: "updown-a07aa",
-  storageBucket: "updown-a07aa.appspot.com",
-  messagingSenderId: "1063751665909",
-  appId: "1:1063751665909:web:43060ceae9437a705cddbc",
-  measurementId: "G-8R3PDBP0H6"
-};
-*/
-
 firebase.initializeApp(firebaseConfig);
 
 const storage = firebase.storage();
