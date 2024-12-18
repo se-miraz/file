@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,89 +8,32 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/memo.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>파일이동 및 메모 앱</title>
-<style>
-  .body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 1200px;
-  }
-  .file-section {
-    flex: 2;
-    margin-right: 20px;
-  }
-  .memo-section {
-    flex: 1;
-  }
-  .uploading-file-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  @media screen and (max-width: 768px) {
-    .container {
-      flex-direction: column;
-    }
-    .file-section {
-      width: 100%;
-      margin-right: 0;
-      margin-bottom: 20px;
-    }
-    .memo-section {
-      width: 100%;
-    }
-  }
-</style>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+  <title>파일이동 간소화</title>
 </head>
 <body>
-  <div><center><h2>파일이동 시간장치 & 대나무숲<h2></center></div>
-  
-  <div class="container">
-    <div class="file-section">
-      <h3>파일 이동</h3>
-      <div id="uploadArea" class="upload-area">
-        <h3>여기를 클릭하거나, 파일을 드래그 앤 드롭하세요.</h3>
-        <input type="file" id="fileInput" style="display:none;">
-        <p id="fileName"></p>
-      </div>
-      <button id="uploadButton">업로드</button>
-      <div class="uploading-file-name" id="uploadingFileName"></div>
-      <progress id="uploadProgress" value="0" max="100" style="width: 100%; display:none;"></progress>
-
-      <h3>다운로드할 파일 선택:</h3>
-      <button id="selectAllButton" class="select-all-button">전체 선택</button>
-      <button id="downloadButton" disabled>다운로드</button>
-      <button id="deleteButton" class="delete-button">삭제</button>
-      <ul id="fileListUl"></ul>
-    </div>
-
-    <div class="memo-section">
-      <h3>대나무숲</h3>
-      <div id="memo-container">
-        <textarea id="memo-text" placeholder="메모를 입력하세요..."></textarea>
-        <button id="send-memo">메모 전송</button>
-        <button id="delete-all-memos">전체 메모 삭제</button>
-        <div id="memos-display"></div>
-      </div>
-    </div>
+<body>
+  <button class="move-to-memo-btn" onclick="location.href='memo.html'">메모로 이동</button>
+  <div><center><h2>파일이동 시간장치?!!<h2></center></div>
+  <div id="uploadArea" class="upload-area">
+    <h3>여기를 클릭하거나, 파일을 드래그 앤 드롭하세요.</h3>
+    <input type="file" id="fileInput" style="display:none;">
+    <p id="fileName"></p>
   </div>
-  
-  <script src="js/firebase-init.js"></script>
+  <button id="uploadButton">업로드</button>
+  <div class="uploading-file-name" id="uploadingFileName"></div>
+  <progress id="uploadProgress" value="0" max="100" style="width: 100%; display:none;"></progress>
+
+  <h3>다운로드할 파일 선택:</h3>
+  <button id="selectAllButton" class="select-all-button">전체 선택</button>
+  <button id="downloadButton" disabled>다운로드</button>
+  <button id="deleteButton" class="delete-button">삭제</button>
+    <ul id="fileListUl"></ul>
+
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/memo.js"></script>
 </body>
 </html>
