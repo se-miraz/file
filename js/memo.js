@@ -1,13 +1,12 @@
 // memo.js
-document.addEventListener('DOMContentLoaded', function() {
-  // Firestore 인스턴스 사용 (firebase-init.js에서 초기화됨)
-  const db = window.db;
+import { db } from './firebase-init.js';
 
+document.addEventListener('DOMContentLoaded', function() {
   // HTML 요소 선택
   const memoText = document.getElementById('memo-text');
   const sendMemoBtn = document.getElementById('send-memo');
-  const memosDisplay = document.getElementById('memos-display');
   const deleteAllMemosBtn = document.getElementById('delete-all-memos');
+  const memosDisplay = document.getElementById('memos-display');
 
   // 메모 전송 함수
   function sendMemo() {
@@ -55,24 +54,24 @@ document.addEventListener('DOMContentLoaded', function() {
   // 실시간 메모 불러오기 함수
   function loadMemosRealtime() {
     db.collection('memos').orderBy('createdAt', 'desc')
-      .onSnapshot((querySnapshot) => {
-        memosDisplay.innerHTML = '';
-        querySnapshot.forEach((doc) => {
-          const memoData = doc.data();
-          const memoId = doc.id;
-          const memoDiv = document.createElement('div');
-          memoDiv.className = 'memo';
-          const formattedTime = formatTime(memoData.createdAt.toDate());
+    .onSnapshot((querySnapshot) => {
+      memosDisplay.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        const memoData = doc.data();
+        const memoId = doc.id;
+        const memoDiv = document.createElement('div');
+        memoDiv.className = 'memo';
+        const formattedTime = formatTime(memoData.createdAt.toDate());
 
-          memoDiv.innerHTML = `
-            <p>${memoData.content.replace(/\n/g, '<br>')}</p>
-            <p>작성 시간: ${formattedTime}</p>
-            <button onclick="deleteMemo('${memoId}')">삭제</button>
-          `;
+        memoDiv.innerHTML = `
+          <p>${memoData.content.replace(/\n/g, '<br>')}</p>
+          <p>작성 시간: ${formattedTime}</p>
+          <button onclick="deleteMemo('${memoId}')">삭제</button>
+        `;
 
-          memosDisplay.appendChild(memoDiv);
-        });
+        memosDisplay.appendChild(memoDiv);
       });
+    });
   }
 
   // 이벤트 리스너 등록
